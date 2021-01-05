@@ -4,8 +4,11 @@ TAG=latest
 build:
 	docker build -t $(REPO):$(TAG) .
 
-deploy: build login
+push: build login
 	docker push $(REPO):$(TAG)
+
+pull:
+	docker pull $(REPO):$(TAG)
 
 login:
 	docker login
