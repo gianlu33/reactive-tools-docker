@@ -2,6 +2,8 @@
 
 set -eux
 
+apt-get update && apt-get install -y git
+
 git clone https://github.com/gianlu33/authentic-execution.git
 cd authentic-execution
 

@@ -8,7 +8,7 @@ deploy: build
 	docker push $(REPO):$(TAG)
 
 run_bash: check_workspace
-	docker run --rm -it --network=host -v $(WORKSPACE):/usr/src/app/ $(REPO):$(TAG) bash
+	docker run --rm -it --network=host -v $(WORKSPACE):/usr/src/app/ -v /var/run/aesmd/:/var/run/aesmd $(REPO):$(TAG) bash
 
 run:
 	echo "TODO"

@@ -1,6 +1,11 @@
-FROM python:3.6
+FROM ubuntu:18.04
 
 WORKDIR /usr/src/installation_scripts
+
+# Install python & pip
+
+COPY scripts/install_python.sh .
+RUN ./install_python.sh
 
 # Rust & Fortanix EDP
 
