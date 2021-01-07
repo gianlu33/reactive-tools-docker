@@ -2,20 +2,17 @@
 
 set -eux
 
-apt-get update && apt-get install -y git
+apt-get update && apt-get install -y git screen unzip # screen + unzip might be useful for Sancus
 
 git clone https://github.com/gianlu33/authentic-execution.git
 cd authentic-execution
 
-#TODO: update this when time comes
-git submodule update --init --recursive libs/reactive-net
-git submodule update --init --recursive sgx/rust-sgx-gen
-git submodule update --init --recursive sgx/rust-sgx-apps
-git submodule update --init --recursive reactive-tools
+git submodule update --init --recursive
 
 pip install libs/reactive-net
 pip install sgx/rust-sgx-gen
 pip install reactive-tools/
+pip install sancus/reactive-uart2ip
 
 #install applications for SGX deployment
-./sgx/rust-sgx-apps/install_deployer.sh
+./sgx/rust-sgx-apps/install_all.sh

@@ -40,8 +40,7 @@ RUN ./install_sancus.sh $SANCUS_SECURITY $SANCUS_KEY
 COPY scripts/install_reactive_tools.sh .
 RUN ./install_reactive_tools.sh
 
-#################################################### Run
+#################################################### End
 
 WORKDIR /usr/src/app
 RUN rm -rf /usr/src/installation_scripts
-#CMD TODO
