@@ -15,6 +15,9 @@ ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 COPY scripts/deps .
 RUN ./install_deps.sh $SANCUS_SECURITY $SANCUS_KEY
 
+COPY scripts/install_sancus_libs.sh .
+RUN ./install_sancus_libs.sh $SANCUS_SECURITY $SANCUS_KEY
+
 COPY scripts/install_sgx_apps.sh .
 RUN ./install_sgx_apps.sh
 
