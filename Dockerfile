@@ -1,46 +1,25 @@
 FROM ubuntu:18.04
 
-WORKDIR /usr/src/installation_scripts
+WORKDIR /usr/src/install
 
-#################################################### Python
-
-COPY scripts/install_python.sh .
-RUN ./install_python.sh
-
-#################################################### Rust & Fortanix EDP
-
+# Environment variables
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
-    PATH=/usr/local/cargo/bin:$PATH
+    PATH=/usr/local/cargo/bin:$PATH \
+    PYTHONPATH=\$PYTHONPATH:/usr/local/share/sancus-compiler/python/lib/
 
-COPY scripts/install_rust.sh .
-RUN ./install_rust.sh
-
-COPY scripts/install_edp.sh .
-RUN ./install_edp.sh
-
-#################################################### Sancus
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-COPY scripts/install_sancus_deps.sh .
-RUN ./install_sancus_deps.sh
-
+# Parameters for Sancus installation
 ARG SANCUS_SECURITY=128
 ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 
-COPY scripts/install_sancus.sh .
-RUN ./install_sancus.sh $SANCUS_SECURITY $SANCUS_KEY
+COPY scripts/deps .
+RUN ./install_deps.sh $SANCUS_SECURITY $SANCUS_KEY
 
-#################################################### Trustzone
-#TODO
-
-#################################################### Reactive-tools
+COPY scripts/install_sgx_apps.sh .
+RUN ./install_sgx_apps.sh
 
 COPY scripts/install_reactive_tools.sh .
 RUN ./install_reactive_tools.sh
 
-#################################################### End
-
+RUN rm -rf /usr/src/install
 WORKDIR /usr/src/app
-RUN rm -rf /usr/src/installation_scripts

@@ -23,6 +23,3 @@ git clone https://github.com/gianlu33/sancus-compiler.git
 
 make_repo "sancus-support" $1 $2
 make_repo "sancus-compiler" $1 $2
-
-# add python library to PYTHONPATH
-echo "export PYTHONPATH=\$PYTHONPATH:/usr/local/share/sancus-compiler/python/lib/" >> $HOME/.bashrc

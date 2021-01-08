@@ -16,3 +16,7 @@ cargo --version
 rustc --version
 apt-get remove -y --auto-remove wget
 rm -rf /var/lib/apt/lists/*
+
+echo "export RUSTUP_HOME=/usr/local/rustup" >> $HOME/.profile
+echo "export CARGO_HOME=/usr/local/cargo" >> $HOME/.profile
+echo "export PATH=/usr/local/cargo/bin:$PATH" >> $HOME/.profile
