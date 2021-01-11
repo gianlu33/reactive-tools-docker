@@ -4,6 +4,11 @@ TAG=latest
 build:
 	docker build -t $(REPO):$(TAG) .
 
+trigger_rebuild:
+	echo "" >> scripts/install_reactive_tools.sh
+
+rebuild: trigger_rebuild push
+
 push: build login
 	docker push $(REPO):$(TAG)
 
