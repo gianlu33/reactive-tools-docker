@@ -25,7 +25,7 @@ pull_all:
 	make pull TAG=$(TAG_SANCUS)
 
 build:
-	docker build -t $(REPO):$(TAG) --build-arg DUMMY=$(shell date +%s) -f $(DOCKERFILE) .
+	docker build -t $(REPO):$(TAG) --build-arg DUMMY2=$(shell date +%s) -f $(DOCKERFILE) .
 
 push: build login
 	docker push $(REPO):$(TAG)

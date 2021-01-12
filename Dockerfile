@@ -15,13 +15,15 @@ ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 COPY scripts/ .
 RUN ./install_all.sh $SANCUS_SECURITY $SANCUS_KEY
 
+ARG DUMMY1=0
+
 RUN apt-get update && apt-get install -y git make \
     && git clone https://github.com/gianlu33/reactive-uart2ip.git \
     && git clone https://github.com/gianlu33/rust-sgx-apps.git \
     && pip install reactive-uart2ip/ \
     && cd rust-sgx-apps && make install
 
-ARG DUMMY=whatever
+ARG DUMMY2=0
 
 RUN git clone https://github.com/gianlu33/reactive-net.git \
     && git clone https://github.com/gianlu33/rust-sgx-gen.git \
