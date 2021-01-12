@@ -13,16 +13,16 @@ DOCKERFILE			= Dockerfile_$(TAG)
 endif
 
 push_all:
-	make push $(REPO):$(TAG_LATEST)
-	make push $(REPO):$(TAG_NATIVE)
-	make push $(REPO):$(TAG_SGX)
-	make push $(REPO):$(TAG_SANCUS)
+	make push TAG=$(TAG_LATEST)
+	make push TAG=$(TAG_NATIVE)
+	make push TAG=$(TAG_SGX)
+	make push TAG=$(TAG_SANCUS)
 
 pull_all:
-	make pull $(REPO):$(TAG_LATEST)
-	make pull $(REPO):$(TAG_NATIVE)
-	make pull $(REPO):$(TAG_SGX)
-	make pull $(REPO):$(TAG_SANCUS)
+	make pull TAG=$(TAG_LATEST)
+	make pull TAG=$(TAG_NATIVE)
+	make pull TAG=$(TAG_SGX)
+	make pull TAG=$(TAG_SANCUS)
 
 build:
 	docker build -t $(REPO):$(TAG) --build-arg DUMMY=$(shell date +%s) -f $(DOCKERFILE) .
