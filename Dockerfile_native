@@ -5,21 +5,14 @@ WORKDIR /usr/src/install
 # Environment variables
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
-    PATH=/usr/local/cargo/bin:$PATH \
-    PYTHONPATH=\$PYTHONPATH:/usr/local/share/sancus-compiler/python/lib/
-
-# Parameters for Sancus installation
-ARG SANCUS_SECURITY=128
-ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
+    PATH=/usr/local/cargo/bin:$PATH
 
 COPY scripts/ .
-RUN ./install_all.sh $SANCUS_SECURITY $SANCUS_KEY
+RUN ./install_native.sh
 
 RUN apt-get update && apt-get install -y git make \
-    && git clone https://github.com/gianlu33/reactive-uart2ip.git \
     && git clone https://github.com/gianlu33/rust-sgx-apps.git \
-    && pip install reactive-uart2ip/ \
-    && cd rust-sgx-apps && make install
+    && cd rust-sgx-apps && make install_native
 
 ARG DUMMY=whatever
 

@@ -1,13 +1,31 @@
-REPO=gianlu33/reactive-tools
-TAG=latest
+REPO						= gianlu33/reactive-tools
+TAG_LATEST			= latest
+TAG_NATIVE			= native
+TAG_SGX					= sgx
+TAG_SANCUS			= sancus
+
+TAG							?= latest
+
+ifeq ($(TAG), latest)
+DOCKERFILE 			= Dockerfile
+else
+DOCKERFILE			= Dockerfile_$(TAG)
+endif
+
+push_all:
+	make push $(REPO):$(TAG_LATEST)
+	make push $(REPO):$(TAG_NATIVE)
+	make push $(REPO):$(TAG_SGX)
+	make push $(REPO):$(TAG_SANCUS)
+
+pull_all:
+	make pull $(REPO):$(TAG_LATEST)
+	make pull $(REPO):$(TAG_NATIVE)
+	make pull $(REPO):$(TAG_SGX)
+	make pull $(REPO):$(TAG_SANCUS)
 
 build:
-	docker build -t $(REPO):$(TAG) .
-
-trigger_rebuild:
-	echo "" >> scripts/install_reactive_tools.sh
-
-rebuild: trigger_rebuild push
+	docker build -t $(REPO):$(TAG) --build-arg DUMMY=$(shell date +%s) -f $(DOCKERFILE) .
 
 push: build login
 	docker push $(REPO):$(TAG)
@@ -16,7 +34,7 @@ pull:
 	docker pull $(REPO):$(TAG)
 
 run: check_workspace
-	docker run --rm -it --network=host -v $(WORKSPACE):/usr/src/app/ -v /var/run/aesmd/:/var/run/aesmd gianlu33/reactive-tools bash
+	docker run --rm -it --network=host -v $(WORKSPACE):/usr/src/app/ -v /var/run/aesmd/:/var/run/aesmd $(REPO):$(TAG) bash
 
 login:
 	docker login
