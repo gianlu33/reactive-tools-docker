@@ -1,8 +1,0 @@
-#!/bin/bash
-
-set -eux
-
-./deps/install_python_1604.sh
-./deps/install_rust.sh
-./deps/install_edp.sh
-./deps/install_sancus.sh "$@"

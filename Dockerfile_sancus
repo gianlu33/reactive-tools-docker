@@ -9,8 +9,8 @@ ENV PYTHONPATH=\$PYTHONPATH:/usr/local/share/sancus-compiler/python/lib/
 ARG SANCUS_SECURITY=128
 ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 
-COPY scripts/ .
-RUN ./install_sancus.sh $SANCUS_SECURITY $SANCUS_KEY
+COPY scripts/install_sancus_old .
+RUN ./install_sancus_old.sh $SANCUS_SECURITY $SANCUS_KEY
 
 ARG DUMMY1=0
 
