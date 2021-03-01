@@ -12,7 +12,7 @@ ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 COPY scripts/ .
 RUN ./install_sancus.sh $SANCUS_SECURITY $SANCUS_KEY
 
-ARG DUMMY1=1
+ARG DUMMY1=0
 
 RUN apt-get update && apt-get install -y git \
     && git clone https://github.com/gianlu33/reactive-uart2ip.git \

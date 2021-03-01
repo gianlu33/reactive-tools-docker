@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:16.04
 
 WORKDIR /usr/src/install
 
@@ -15,7 +15,7 @@ ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 COPY scripts/ .
 RUN ./install_all.sh $SANCUS_SECURITY $SANCUS_KEY
 
-ARG DUMMY1=1
+ARG DUMMY1=0
 
 RUN apt-get update && apt-get install -y git make \
     && git clone https://github.com/gianlu33/reactive-uart2ip.git \
