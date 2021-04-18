@@ -1,12 +1,13 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 WORKDIR /usr/src/install
 
-RUN useradd -ms /bin/bash reactive
+# python
 
-## Python ##
-COPY scripts/install_python.sh .
-RUN ./install_python.sh
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl python3.6 python3-distutils git make \
+    && echo -e '#!/bin/bash\npython3.6 "$@"' > /usr/bin/python && chmod +x /usr/bin/python \
+    && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py
 
 ## Rust ##
 ENV RUSTUP_HOME=/usr/local/rustup \
@@ -28,18 +29,23 @@ ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 COPY scripts/install_sancus.sh .
 RUN ./install_sancus.sh $SANCUS_SECURITY $SANCUS_KEY
 
-ARG DUMMY1=0
+ARG DUMMY=1
 
-RUN apt-get update && apt-get install -y --no-install-recommends git make \
-    && git clone https://github.com/gianlu33/rust-sgx-apps.git \
-    && cd rust-sgx-apps && make install
+# Install SGX attester, for SGX attestation
+
+COPY sgx-attester /bin/sgx-attester
+
+# Install packages needed for SGX remote attestation library (mbedtls)
+RUN apt-get update && apt-get install -y --no-install-recommends clang gcc-multilib
 
 ARG DUMMY2=0
 
 RUN git clone https://github.com/gianlu33/reactive-net.git \
     && git clone https://github.com/gianlu33/rust-sgx-gen.git \
-    && git clone https://github.com/gianlu33/reactive-tools.git \
-    && pip install reactive-net/ rust-sgx-gen/ reactive-tools/ \
+    && git clone --branch fix-fosdem https://github.com/gianlu33/reactive-tools.git \
+    && pip install reactive-net/ \
+    && pip install rust-sgx-gen/ \
+    && pip install reactive-tools/ \
     && rm -rf /usr/src/install
 
 WORKDIR /usr/src/app

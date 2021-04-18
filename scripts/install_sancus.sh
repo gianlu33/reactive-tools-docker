@@ -13,21 +13,17 @@ function make_repo() {
   cd ..
 }
 
-apt-get update && apt-get install -y --no-install-recommends make git \
-  lsb-release screen unzip cmake wget  \
-  build-essential bzip2 curl cmake vim-common expect-dev \
-  flex bison libstdc++6 \
-  tk binutils-msp430 gcc-msp430 msp430-libc msp430mcu
+apt-get install -y make git lsb-release screen unzip
 
-pip install pyelftools
+export DEBIAN_FRONTEND=noninteractive
 
 git clone https://github.com/sancus-tee/sancus-main.git
 cd sancus-main
+make install_deps
+make install SANCUS_SECURITY=$1 SANCUS_KEY=$2
 
-make ti-mspgcc
-make clang-sancus
-
-# custom sancus-compiler and sancus-support (in this right order!)
+# patch sancus-support and sancus-compiler
+# TODO remove this as soon as these patches are merged into main repo
 cd ..
 git clone https://github.com/gianlu33/sancus-compiler.git
 git clone https://github.com/gianlu33/sancus-support.git

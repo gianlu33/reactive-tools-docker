@@ -13,8 +13,3 @@ cargo install fortanix-sgx-tools sgxs-tools
 # Configure Cargo integration with EDP
 mkdir -p $HOME/.cargo
 echo -e '[target.x86_64-fortanix-unknown-sgx]\nrunner = "ftxsgx-runner-cargo"' >> $HOME/.cargo/config
-
-# Install clang 3.8 for rust-mbedtls
-# See https://github.com/fortanix/rust-mbedtls/issues/5
-apt-get update && apt-get install -y --no-install-recommends clang-3.8 cmake
-ln -s /usr/lib/llvm-3.8/lib/libclang.so.1 /usr/lib/llvm-3.8/lib/libclang.so
