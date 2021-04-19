@@ -2,8 +2,7 @@ FROM ubuntu:18.04
 
 WORKDIR /usr/src/install
 
-# python
-
+## Python ##
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl python3.6 python3-distutils git make \
     && echo -e '#!/bin/bash\npython3.6 "$@"' > /usr/bin/python && chmod +x /usr/bin/python \
     && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
@@ -29,23 +28,20 @@ ARG SANCUS_KEY=deadbeefcafebabec0defeeddefec8ed
 COPY scripts/install_sancus.sh .
 RUN ./install_sancus.sh $SANCUS_SECURITY $SANCUS_KEY
 
-ARG DUMMY=1
-
-# Install SGX attester, for SGX attestation
-
+## SGX attestation stuff ##
 COPY sgx-attester /bin/sgx-attester
-
-# Install packages needed for SGX remote attestation library (mbedtls)
 RUN apt-get update && apt-get install -y --no-install-recommends clang gcc-multilib
 
-ARG DUMMY2=0
+ARG DUMMY=0
 
+## reactive-tools and deps ##
 RUN git clone https://github.com/gianlu33/reactive-net.git \
     && git clone https://github.com/gianlu33/rust-sgx-gen.git \
-    && git clone --branch fix-fosdem https://github.com/gianlu33/reactive-tools.git \
+    && git clone https://github.com/gianlu33/reactive-tools.git \
     && pip install reactive-net/ \
     && pip install rust-sgx-gen/ \
     && pip install reactive-tools/ \
+    # cleanup #
     && rm -rf /usr/src/install
 
 WORKDIR /usr/src/app

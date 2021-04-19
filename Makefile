@@ -1,13 +1,19 @@
-REPO						= gianlu33/reactive-tools
-TAG							?= latest
+REPO							?= gianlu33/reactive-tools
+TAG								?= latest
 
-VOLUME					?= $(shell pwd)
+BACKUP						?= registry.rosetta.ericssondevops.com/gftl-er-5g-hosts/authentic-execution/fosdem-21-images/reactive-tools
+
+VOLUME						?= $(shell pwd)
 
 build:
-	DOCKER_BUILDKIT=1 docker build --ssh default -t $(REPO):$(TAG) --build-arg DUMMY2=$(shell date +%s) .
+	docker build -t $(REPO):$(TAG) --build-arg DUMMY=$(shell date +%s) .
 
 push: login
 	docker push $(REPO):$(TAG)
+
+push_backup:
+		docker tag $(REPO):$(TAG) $(BACKUP):$(TAG)
+		docker push $(BACKUP):$(TAG)
 
 pull:
 	docker pull $(REPO):$(TAG)
