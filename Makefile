@@ -1,42 +1,25 @@
-REPO						= gianlu33/reactive-tools
-TAG_LATEST			= latest
-TAG_NATIVE			= native
-TAG_SGX					= sgx
-TAG_SANCUS			= sancus
+REPO							?= gianlu33/reactive-tools
+TAG								?= latest
 
-TAG							?= latest
+BACKUP						?= registry.rosetta.ericssondevops.com/gftl-er-5g-hosts/authentic-execution/fosdem-21-images/reactive-tools
 
-ifeq ($(TAG), latest)
-DOCKERFILE 			= Dockerfile
-else
-DOCKERFILE			= Dockerfile_$(TAG)
-endif
-
-VOLUME					?= $(shell pwd)
-
-push_all:
-	make push TAG=$(TAG_LATEST)
-	make push TAG=$(TAG_NATIVE)
-	make push TAG=$(TAG_SGX)
-	make push TAG=$(TAG_SANCUS)
-
-pull_all:
-	make pull TAG=$(TAG_LATEST)
-	make pull TAG=$(TAG_NATIVE)
-	make pull TAG=$(TAG_SGX)
-	make pull TAG=$(TAG_SANCUS)
+VOLUME						?= $(shell pwd)
 
 build:
-	docker build -t $(REPO):$(TAG) --build-arg DUMMY2=$(shell date +%s) -f $(DOCKERFILE) .
+	docker build -t $(REPO):$(TAG) --build-arg DUMMY=$(shell date +%s) .
 
-push: build login
+push: login
 	docker push $(REPO):$(TAG)
+
+push_backup:
+		docker tag $(REPO):$(TAG) $(BACKUP):$(TAG)
+		docker push $(BACKUP):$(TAG)
 
 pull:
 	docker pull $(REPO):$(TAG)
 
 run:
-	docker run --rm -it --network=host -v $(VOLUME):/usr/src/app/ -v /var/run/aesmd/:/var/run/aesmd $(REPO):$(TAG) bash
+	docker run --rm -it --network=host -v $(VOLUME):/usr/src/app/ $(REPO):$(TAG) bash
 
 login:
 	docker login
