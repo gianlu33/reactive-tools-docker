@@ -25,8 +25,8 @@ make install SANCUS_SECURITY=$1 SANCUS_KEY=$2
 # patch sancus-support and sancus-compiler
 # TODO remove this as soon as these patches are merged into main repo
 cd ..
-git clone https://github.com/gianlu33/sancus-compiler.git
-git clone https://github.com/gianlu33/sancus-support.git
+git clone --branch fosdem-21 https://github.com/gianlu33/sancus-compiler.git
+git clone --branch fosdem-21 https://github.com/gianlu33/sancus-support.git
 
 make_repo "sancus-compiler" $1 $2
 make_repo "sancus-support" $1 $2

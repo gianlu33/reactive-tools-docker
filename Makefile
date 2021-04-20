@@ -1,5 +1,5 @@
 REPO							?= gianlu33/reactive-tools
-TAG								?= latest
+TAG								?= fosdem
 
 BACKUP						?= registry.rosetta.ericssondevops.com/gftl-er-5g-hosts/authentic-execution/fosdem-21-images/reactive-tools
 

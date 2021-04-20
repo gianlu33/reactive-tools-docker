@@ -37,7 +37,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends clang gcc-multi
 ARG DUMMY=0
 
 ## reactive-tools and deps ##
-RUN git clone https://github.com/gianlu33/reactive-tools.git \
+RUN git clone --branch fosdem-21 https://github.com/gianlu33/reactive-net.git \
+    && git clone --branch fosdem-21 https://github.com/gianlu33/rust-sgx-gen.git \
+    && git clone --branch fosdem-21 https://github.com/gianlu33/reactive-tools.git \
+    && pip install reactive-net/ \
+    && pip install rust-sgx-gen/ \
     && pip install reactive-tools/ \
     # cleanup #
     && rm -rf /usr/src/install
