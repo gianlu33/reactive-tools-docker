@@ -31,8 +31,11 @@ COPY scripts/install_sancus.sh .
 RUN ./install_sancus.sh $SANCUS_SECURITY $SANCUS_KEY
 
 ## SGX attestation stuff ##
-COPY sgx-attester /bin/sgx-attester
+COPY exec/sgx-attester /bin/sgx-attester
 RUN apt-get update && apt-get install -y --no-install-recommends clang gcc-multilib
+
+## Attestation Manager client ##
+COPY exec/attman-cli /bin/attman-cli
 
 ARG DUMMY=0
 
