@@ -20,6 +20,8 @@ RUN ./install_rust.sh
 COPY scripts/install_edp.sh .
 RUN ./install_edp.sh
 
+ARG DUMMY1=0
+
 ## Sancus ##
 ENV PYTHONPATH=\$PYTHONPATH:/usr/local/share/sancus-compiler/python/lib/
 ARG SANCUS_SECURITY=128
@@ -35,11 +37,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends clang gcc-multi
 ARG DUMMY=0
 
 ## reactive-tools and deps ##
-RUN git clone https://github.com/gianlu33/reactive-net.git \
-    && git clone https://github.com/gianlu33/rust-sgx-gen.git \
-    && git clone https://github.com/gianlu33/reactive-tools.git \
-    && pip install reactive-net/ \
-    && pip install rust-sgx-gen/ \
+RUN git clone https://github.com/gianlu33/reactive-tools.git \
     && pip install reactive-tools/ \
     # cleanup #
     && rm -rf /usr/src/install

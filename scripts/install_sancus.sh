@@ -13,7 +13,7 @@ function make_repo() {
   cd ..
 }
 
-apt-get install -y make git lsb-release screen unzip
+apt-get update && apt-get install -y make git lsb-release screen unzip
 
 export DEBIAN_FRONTEND=noninteractive
 
