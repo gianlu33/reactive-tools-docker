@@ -40,7 +40,7 @@ COPY exec/attman-cli /bin/attman-cli
 ARG DUMMY=0
 
 ## reactive-tools and deps ##
-RUN git clone https://github.com/gianlu33/reactive-tools.git \
+RUN git clone --branch att-man https://github.com/gianlu33/reactive-tools.git \
     && pip install reactive-tools/ \
     # cleanup #
     && rm -rf /usr/src/install
