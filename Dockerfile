@@ -40,9 +40,12 @@ ARG DUMMY=0
 RUN git clone --branch fosdem-21 https://github.com/gianlu33/reactive-net.git \
     && git clone --branch fosdem-21 https://github.com/gianlu33/rust-sgx-gen.git \
     && git clone --branch fosdem-21 https://github.com/gianlu33/reactive-tools.git \
+
+    # Install reactive-tools first, otherwise the versions of reactive-net and rust-sgx-gen will be replaced
+    && pip install reactive-tools/ \
     && pip install reactive-net/ \
     && pip install rust-sgx-gen/ \
-    && pip install reactive-tools/ \
+    
     # cleanup #
     && rm -rf /usr/src/install
 
